@@ -25,6 +25,7 @@ export default function PromptInput({
   }
 
   const bothEmpty = !oldText.trim() && !newText.trim()
+  const hasIncomplete = (!oldText.trim() || !newText.trim()) && (oldText.trim() || newText.trim())
 
   return (
     <div className="animate-fade-in">
@@ -33,7 +34,7 @@ export default function PromptInput({
         <div>
           <label
             htmlFor="old-prompt"
-            className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="mb-2 block text-sm font-semibold text-gray-800 dark:text-gray-200"
           >
             Old Prompt
           </label>
@@ -55,7 +56,7 @@ export default function PromptInput({
         <div>
           <label
             htmlFor="new-prompt"
-            className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="mb-2 block text-sm font-semibold text-gray-800 dark:text-gray-200"
           >
             New Prompt
           </label>
@@ -79,7 +80,7 @@ export default function PromptInput({
         <button
           onClick={onCompare}
           disabled={!oldText.trim() || !newText.trim()}
-          className="rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm dark:bg-primary-500 dark:hover:bg-primary-600"
+          className="rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus-visible:outline-primary-400"
           aria-label="Compare prompts"
         >
           🔍 Compare
@@ -88,7 +89,7 @@ export default function PromptInput({
         <button
           onClick={onSwap}
           disabled={bothEmpty}
-          className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 dark:border-dark-border dark:bg-dark-surface dark:text-gray-300 dark:hover:bg-gray-700"
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 dark:border-dark-border dark:bg-dark-surface dark:text-gray-300 dark:hover:bg-gray-700"
           aria-label="Swap old and new prompts"
           title="Swap old and new prompts"
         >
@@ -98,7 +99,7 @@ export default function PromptInput({
         <button
           onClick={onClear}
           disabled={bothEmpty}
-          className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 dark:border-dark-border dark:bg-dark-surface dark:text-gray-300 dark:hover:bg-gray-700"
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 dark:border-dark-border dark:bg-dark-surface dark:text-gray-300 dark:hover:bg-gray-700"
           aria-label="Clear both prompts"
         >
           ✕ Clear
@@ -106,17 +107,17 @@ export default function PromptInput({
 
         <button
           onClick={handleLoadSample}
-          className="rounded-lg border border-primary-200 bg-primary-50 px-4 py-2.5 text-sm font-medium text-primary-700 shadow-sm transition-all hover:bg-primary-100 hover:shadow-md active:scale-95 dark:border-primary-800 dark:bg-primary-900/30 dark:text-primary-300 dark:hover:bg-primary-900/50"
+          className="rounded-lg border border-primary-300 bg-primary-50 px-4 py-2.5 text-sm font-medium text-primary-800 shadow-sm transition-all hover:bg-primary-100 hover:shadow-md active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:border-primary-800 dark:bg-primary-950/40 dark:text-primary-300 dark:hover:bg-primary-900/50"
           aria-label="Load sample example"
         >
           📋 Load Sample
         </button>
       </div>
 
-      {/* Friendly error */}
-      {(!oldText.trim() || !newText.trim()) && (oldText.trim() || newText.trim()) && (
-        <p className="mt-3 text-sm text-amber-600 dark:text-amber-400" role="alert">
-          💡 Please paste both prompts to compare.
+      {/* Friendly error / warning */}
+      {hasIncomplete && (
+        <p className="mt-3 text-sm font-medium text-amber-700 dark:text-amber-400" role="alert">
+          💡 Please paste both prompts first to compare.
         </p>
       )}
     </div>

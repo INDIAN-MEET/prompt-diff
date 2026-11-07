@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react'
 
 /**
- * Renders text segments, highlighting placeholders as chips.
+ * Renders text segments, highlighting placeholders as chips with accessible labels.
  */
 function HighlightedText({ words }) {
   const placeholderRegex = /(\$\{[^}]+\})/g
@@ -24,8 +24,9 @@ function HighlightedText({ words }) {
             return (
               <code
                 key={j}
-                className="inline-block bg-blue-50 dark:bg-blue-900/40 mx-0.5 px-1 py-0 border border-blue-200 dark:border-blue-700 rounded font-mono text-[11px] text-blue-700 dark:text-blue-300"
+                className="mx-0.5 inline-block rounded border border-blue-300 bg-blue-50 px-1 py-0 font-mono text-[11px] font-semibold text-blue-900 dark:border-blue-700 dark:bg-blue-950/60 dark:text-blue-200"
                 title={`Placeholder: ${part}`}
+                aria-label={`placeholder ${part}`}
               >
                 {part}
               </code>
@@ -64,23 +65,23 @@ function DiffRow({ row }) {
 
   return (
     <div
-      className="flex border-gray-100 dark:border-gray-800 border-b"
+      className="flex border-b border-gray-100 dark:border-gray-800"
       role="row"
     >
       {/* Left (old) side */}
       <div
-        className={`flex min-h-[1.75rem] w-1/2 border-r border-gray-200 dark:border-gray-700 ${leftBg}`}
+        className={`flex min-h-[1.75rem] w-1/2 border-r border-gray-200 dark:border-gray-750 ${leftBg}`}
         role="cell"
       >
         {/* Line number */}
-        <div className="flex justify-end items-start px-1.5 pt-1 border-gray-200/50 dark:border-gray-700/50 border-r w-10 font-mono text-[11px] text-gray-400 dark:text-gray-500 select-none shrink-0">
+        <div className="flex w-10 shrink-0 select-none items-start justify-end border-r border-gray-200/60 px-1.5 pt-1 font-mono text-[11px] text-gray-500 dark:border-gray-700/60 dark:text-gray-400">
           {oldLine?.number || ''}
         </div>
         {/* Indicator */}
-        <div className="flex justify-center items-start pt-1 w-5 font-mono font-bold text-[11px] select-none shrink-0">
+        <div className="flex w-5 shrink-0 select-none items-start justify-center pt-1 font-mono text-[11px] font-bold">
           {(type === 'removed' || type === 'modified') && (
             <span
-              className="text-red-500 dark:text-red-400"
+              className="text-red-700 dark:text-red-300"
               aria-label="Line removed"
             >
               −
@@ -101,14 +102,14 @@ function DiffRow({ row }) {
         role="cell"
       >
         {/* Line number */}
-        <div className="flex justify-end items-start px-1.5 pt-1 border-gray-200/50 dark:border-gray-700/50 border-r w-10 font-mono text-[11px] text-gray-400 dark:text-gray-500 select-none shrink-0">
+        <div className="flex w-10 shrink-0 select-none items-start justify-end border-r border-gray-200/60 px-1.5 pt-1 font-mono text-[11px] text-gray-500 dark:border-gray-700/60 dark:text-gray-400">
           {newLine?.number || ''}
         </div>
         {/* Indicator */}
-        <div className="flex justify-center items-start pt-1 w-5 font-mono font-bold text-[11px] select-none shrink-0">
+        <div className="flex w-5 shrink-0 select-none items-start justify-center pt-1 font-mono text-[11px] font-bold">
           {(type === 'added' || type === 'modified') && (
             <span
-              className="text-green-500 dark:text-green-400"
+              className="text-green-700 dark:text-green-300"
               aria-label="Line added"
             >
               +
@@ -148,37 +149,40 @@ export default function SplitDiffView({ diffRows }) {
   if (!diffRows || diffRows.length === 0) return null
 
   return (
-    <div className="animate-slide-up">
-      <h3 className="mb-3 font-bold text-gray-900 dark:text-white text-lg">
+    <section className="animate-slide-up" aria-labelledby="diff-view-heading">
+      <h2
+        id="diff-view-heading"
+        className="mb-3 text-lg font-bold text-gray-900 dark:text-white"
+      >
         Side-by-Side Diff
-      </h3>
+      </h2>
       <div
         ref={containerRef}
-        className="shadow-sm border border-gray-200 dark:border-dark-border rounded-xl max-h-[600px] overflow-auto"
+        className="max-h-[600px] overflow-auto rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:border-dark-border"
         role="table"
-        aria-label="Side-by-side diff comparison"
+        aria-label="Side-by-side split diff comparison table"
         tabIndex={0}
         onKeyDown={handleKeyDown}
       >
         {/* Header */}
         <div
-          className="top-0 z-10 sticky flex bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-600 border-b"
+          className="sticky top-0 z-10 flex border-b border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-800"
           role="row"
         >
           <div
-            className="flex items-center px-4 py-2 border-gray-200 dark:border-gray-700 border-r w-1/2 font-semibold text-red-700 dark:text-red-400 text-xs"
+            className="flex w-1/2 items-center border-r border-gray-200 px-4 py-2.5 text-xs font-bold text-red-800 dark:border-gray-700 dark:text-red-300"
             role="columnheader"
           >
-            <span aria-hidden="true" className="mr-1.5">
+            <span aria-hidden="true" className="mr-1.5 font-mono text-sm">
               −
             </span>
             Old Prompt
           </div>
           <div
-            className="flex items-center px-4 py-2 w-1/2 font-semibold text-green-700 dark:text-green-400 text-xs"
+            className="flex w-1/2 items-center px-4 py-2.5 text-xs font-bold text-green-800 dark:text-green-300"
             role="columnheader"
           >
-            <span aria-hidden="true" className="mr-1.5">
+            <span aria-hidden="true" className="mr-1.5 font-mono text-sm">
               +
             </span>
             New Prompt
@@ -192,7 +196,6 @@ export default function SplitDiffView({ diffRows }) {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
-
