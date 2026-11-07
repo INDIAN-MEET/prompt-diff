@@ -2,8 +2,9 @@ import { useState, useCallback } from 'react'
 import PromptInput from '../components/PromptInput'
 import PlaceholderSummary from '../components/PlaceholderSummary'
 import StatCards from '../components/StatCards'
+import SplitDiffView from '../components/SplitDiffView'
 import { comparePlaceholders } from '../utils/comparePlaceholders'
-import { getLineStats } from '../utils/buildDiff'
+import { buildDiff, getLineStats } from '../utils/buildDiff'
 
 export default function App() {
   const [oldText, setOldText] = useState('')
@@ -14,9 +15,10 @@ export default function App() {
     if (!oldText.trim() || !newText.trim()) return
 
     const comparison = comparePlaceholders(oldText, newText)
+    const diffRows = buildDiff(oldText, newText)
     const lineStats = getLineStats(oldText, newText)
 
-    setResults({ comparison, lineStats })
+    setResults({ comparison, diffRows, lineStats })
   }, [oldText, newText])
 
   const handleClear = useCallback(() => {
@@ -70,6 +72,8 @@ export default function App() {
             placeholdersRemoved={results.comparison.removed.length}
             placeholdersUnchanged={results.comparison.unchanged.length}
           />
+
+          <SplitDiffView diffRows={results.diffRows} />
         </div>
       )}
     </div>
