@@ -1,28 +1,36 @@
 import { useState, useCallback } from 'react'
 import PromptInput from '../components/PromptInput'
+import PlaceholderSummary from '../components/PlaceholderSummary'
+import { comparePlaceholders } from '../utils/comparePlaceholders'
 
 export default function App() {
   const [oldText, setOldText] = useState('')
   const [newText, setNewText] = useState('')
+  const [results, setResults] = useState(null)
 
   const handleCompare = useCallback(() => {
     if (!oldText.trim() || !newText.trim()) return
-    // Results will be added in the next commits
+
+    const comparison = comparePlaceholders(oldText, newText)
+    setResults({ comparison })
   }, [oldText, newText])
 
   const handleClear = useCallback(() => {
     setOldText('')
     setNewText('')
+    setResults(null)
   }, [])
 
   const handleSwap = useCallback(() => {
     setOldText(newText)
     setNewText(oldText)
+    setResults(null)
   }, [oldText, newText])
 
   const handleLoadSample = useCallback((sampleOld, sampleNew) => {
     setOldText(sampleOld)
     setNewText(sampleNew)
+    setResults(null)
   }, [])
 
   return (
@@ -46,6 +54,12 @@ export default function App() {
         onSwap={handleSwap}
         onLoadSample={handleLoadSample}
       />
+
+      {results && (
+        <div className="mt-8 space-y-8">
+          <PlaceholderSummary comparison={results.comparison} />
+        </div>
+      )}
     </div>
   )
 }
