@@ -7,3 +7,4 @@ const buildDir = path.resolve('build')
 if (fs.existsSync(distDir)) {
   fs.cpSync(distDir, buildDir, { recursive: true, force: true })
 }
+
