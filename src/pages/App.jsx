@@ -1,0 +1,51 @@
+import { useState, useCallback } from 'react'
+import PromptInput from '../components/PromptInput'
+
+export default function App() {
+  const [oldText, setOldText] = useState('')
+  const [newText, setNewText] = useState('')
+
+  const handleCompare = useCallback(() => {
+    if (!oldText.trim() || !newText.trim()) return
+    // Results will be added in the next commits
+  }, [oldText, newText])
+
+  const handleClear = useCallback(() => {
+    setOldText('')
+    setNewText('')
+  }, [])
+
+  const handleSwap = useCallback(() => {
+    setOldText(newText)
+    setNewText(oldText)
+  }, [oldText, newText])
+
+  const handleLoadSample = useCallback((sampleOld, sampleNew) => {
+    setOldText(sampleOld)
+    setNewText(sampleNew)
+  }, [])
+
+  return (
+    <div className="mx-auto min-h-screen max-w-6xl px-4 py-8 sm:px-6">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+          Compare Prompts
+        </h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Paste your old and new prompt below, then click Compare.
+        </p>
+      </div>
+
+      <PromptInput
+        oldText={oldText}
+        newText={newText}
+        onOldChange={setOldText}
+        onNewChange={setNewText}
+        onCompare={handleCompare}
+        onClear={handleClear}
+        onSwap={handleSwap}
+        onLoadSample={handleLoadSample}
+      />
+    </div>
+  )
+}
