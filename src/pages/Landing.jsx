@@ -1,5 +1,62 @@
 import { Link } from 'react-router-dom'
 
+const FEATURES = [
+  {
+    icon: '📊',
+    title: 'Side-by-side diff',
+    desc: 'GitHub-style split view with line numbers and word-level highlighting.',
+  },
+  {
+    icon: '🔍',
+    title: 'Placeholder detection',
+    desc: 'Automatically finds all ${...} template placeholders in your prompts.',
+  },
+  {
+    icon: '📈',
+    title: 'Old vs new count',
+    desc: 'See how many unique placeholders exist in each version at a glance.',
+  },
+  {
+    icon: '🏷️',
+    title: 'Change tracking',
+    desc: 'Instantly see which placeholders were added, removed, or stayed the same.',
+  },
+  {
+    icon: '🔢',
+    title: 'Change counter',
+    desc: 'Line and placeholder change statistics with configurable warning threshold.',
+  },
+  {
+    icon: '🔒',
+    title: 'Private & secure',
+    desc: 'Nothing leaves your browser. Your prompts are never uploaded or stored.',
+  },
+  {
+    icon: '🆓',
+    title: 'Free, no login',
+    desc: 'No account, no signup, no tracking. Just paste and compare.',
+  },
+]
+
+const FAQ = [
+  {
+    q: 'Is PromptDiff free?',
+    a: 'Yes, 100% free. No hidden costs, no premium tier.',
+  },
+  {
+    q: 'Do I need to create an account?',
+    a: 'No. There is no login, no signup, no account needed. Just open and use.',
+  },
+  {
+    q: 'Is my data stored anywhere?',
+    a: 'No. Everything runs entirely in your browser. Your prompts never leave your device — nothing is sent to any server.',
+  },
+  {
+    q: 'What kind of placeholders does it detect?',
+    a: 'JavaScript template literal placeholders like ${variableName}, ${user.name}, ${items[0]}, and even expressions like ${a + b}.',
+  },
+]
+
 function DiffPreview() {
   return (
     <div
@@ -165,6 +222,72 @@ export default function Landing() {
                   {item.desc}
                 </p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="px-4 py-16 sm:px-6" id="features">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 dark:text-white">
+            Features
+          </h2>
+          <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-dark-border dark:bg-dark-surface"
+              >
+                <div className="mb-3 text-2xl">{feature.icon}</div>
+                <h3 className="mb-1 font-bold text-gray-900 dark:text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section
+        className="border-t border-gray-100 bg-gray-50/50 px-4 py-16 dark:border-dark-border dark:bg-dark-surface/50 sm:px-6"
+        id="faq"
+      >
+        <div className="mx-auto max-w-2xl">
+          <h2 className="mb-10 text-center text-3xl font-bold text-gray-900 dark:text-white">
+            FAQ
+          </h2>
+          <div className="space-y-4">
+            {FAQ.map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-xl border border-gray-200 bg-white shadow-sm dark:border-dark-border dark:bg-dark-surface"
+              >
+                <summary className="flex cursor-pointer items-center justify-between p-5 font-semibold text-gray-900 transition-colors hover:text-primary-600 dark:text-white dark:hover:text-primary-400">
+                  {item.q}
+                  <svg
+                    className="h-5 w-5 shrink-0 text-gray-400 transition-transform group-open:rotate-180"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </summary>
+                <p className="px-5 pb-5 text-sm text-gray-600 dark:text-gray-400">
+                  {item.a}
+                </p>
+              </details>
             ))}
           </div>
         </div>
