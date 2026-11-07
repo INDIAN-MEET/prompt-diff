@@ -34,9 +34,13 @@
   --color-dark-diff-removed-highlight: #991b1b;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply bg-white text-gray-900 dark:bg-dark-bg dark:text-dark-text antialiased;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Custom scrollbar */
