@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# os
+.DS_Store
+Thumbs.db
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# testing
+coverage/
+
+# misc
+*.tgz
+.oxlintrc.json
