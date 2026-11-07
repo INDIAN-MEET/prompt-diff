@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react'
 import PromptInput from '../components/PromptInput'
 import PlaceholderSummary from '../components/PlaceholderSummary'
+import StatCards from '../components/StatCards'
 import { comparePlaceholders } from '../utils/comparePlaceholders'
+import { getLineStats } from '../utils/buildDiff'
 
 export default function App() {
   const [oldText, setOldText] = useState('')
@@ -12,7 +14,9 @@ export default function App() {
     if (!oldText.trim() || !newText.trim()) return
 
     const comparison = comparePlaceholders(oldText, newText)
-    setResults({ comparison })
+    const lineStats = getLineStats(oldText, newText)
+
+    setResults({ comparison, lineStats })
   }, [oldText, newText])
 
   const handleClear = useCallback(() => {
@@ -58,6 +62,14 @@ export default function App() {
       {results && (
         <div className="mt-8 space-y-8">
           <PlaceholderSummary comparison={results.comparison} />
+
+          <StatCards
+            linesAdded={results.lineStats.linesAdded}
+            linesRemoved={results.lineStats.linesRemoved}
+            placeholdersAdded={results.comparison.added.length}
+            placeholdersRemoved={results.comparison.removed.length}
+            placeholdersUnchanged={results.comparison.unchanged.length}
+          />
         </div>
       )}
     </div>
